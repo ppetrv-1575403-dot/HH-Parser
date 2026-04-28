@@ -3,253 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HH.ru Парсер вакансий</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>HH.ru Парсер вакансий — Профессиональный поиск работы</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/yandex.css') }}">
+    <script src="{{ url_for('static', filename='js/parser.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/yandexAd.js') }}"></script>
+
+    <!-- Яндекс.РСЯ - код для монетизации -->
+    <!-- ВАЖНО: Замените R-XXXXXXXX-X на ваш реальный ID из интерфейса Яндекс.Рекламы -->
+    <script>window.yaContextCb = window.yaContextCb || []</script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🔍 HH.ru Парсер вакансий</h1>
-            <p>Собирайте вакансии с hh.ru и сохраняйте в Excel/CSV за несколько секунд</p>
+        <!-- ===== ВЕРХНИЙ БАННЕР (Яндекс.РСЯ) ===== -->
+        <!-- Формат: 970x250 или адаптивный, размещается один раз вверху страницы -->
+        <div class="yandex-ad-top" id="yandexAdTop">
+            <!-- Яндекс.РСЯ баннер 970x90 (верх страницы) -->
+            <div id="ad-container-top">
+                <div id="yandex_rtb_R-A-XXXXXXXX-X"></div>
+                <script>
+                     loadYandexAd("R-A-XXXXXXXX-X", "floorAd", "yandex_rtb_R-A-XXXXXXXX-X")
+                </script>
+            </div>
+            <button class="ad-close" onclick="closeYandexAd('yandexAdTop')">✕</button>
         </div>
 
+        <!-- Основная шапка -->
+        <div class="header">
+            <h1>
+                <!--<span style="background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                    HH.ru Парсер вакансий
+                </span>-->
+                <span class="main-header-span">
+                    HH.ru Парсер вакансий
+                </span>
+            </h1>
+            <p>Профессиональный инструмент для сбора и анализа вакансий с hh.ru</p>
+        </div>
+
+        <!-- Основная карточка -->
         <div class="card">
             <form id="parsingForm">
+                <!-- Ключевое слово -->
                 <div class="form-group">
-                    <label>📌 Ключевое слово или профессия</label>
-                    <input type="text" id="searchText" placeholder="Например: Python разработчик" required>
+                    <div class="label-wrapper">
+                        <span class="label-icon">📌</span>
+                        <label>Ключевое слово или профессия</label>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="searchText" 
+                        placeholder="Например: Python разработчик, Data Scientist, Product Manager" 
+                        required
+                        autocomplete="off"
+                    >
                     <div class="examples">
-                        <button type="button" class="example-btn" data-value="Python разработчик">🐍 Python</button>
-                        <button type="button" class="example-btn" data-value="Java разработчик">☕ Java</button>
-                        <button type="button" class="example-btn" data-value="JavaScript">📜 JavaScript</button>
-                        <button type="button" class="example-btn" data-value="Data Scientist">📊 Data Scientist</button>
-                        <button type="button" class="example-btn" data-value="Product Manager">📱 Product Manager</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Python разработчик">🐍 Python</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Java разработчик">☕ Java</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="JavaScript разработчик">📜 JavaScript</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Data Scientist">📊 Data Scientist</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Product Manager">📱 Product Manager</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="DevOps инженер">⚙️ DevOps</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Аналитик данных">📈 Аналитик</button>
                     </div>
                 </div>
 
+                <!-- Город и количество -->
                 <div class="row">
                     <div class="form-group">
-                        <label>📍 Город</label>
-                        <input type="text" id="city" placeholder="Оставьте пустым для поиска по всей России" list="cities">
+                        <div class="label-wrapper">
+                            <span class="label-icon">📍</span>
+                            <label>Город</label>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="city" 
+                            placeholder="Оставьте пустым для поиска по всей России" 
+                            list="cities"
+                            autocomplete="off"
+                        >
                         <datalist id="cities"></datalist>
                     </div>
 
                     <div class="form-group">
-                        <label>🔢 Количество вакансий</label>
-                        <input type="number" id="maxVacancies" value="100" min="1" max="2000" step="10">
+                        <div class="label-wrapper">
+                            <span class="label-icon">🔢</span>
+                            <label>Количество вакансий</label>
+                        </div>
+                        <input 
+                            type="number" 
+                            id="maxVacancies" 
+                            value="100" 
+                            min="1" 
+                            max="2000" 
+                            step="10"
+                        >
+                        <small style="color: var(--text-disabled); font-size: 0.7rem; margin-top: 4px; display: block;">
+                            Максимум 2000 вакансий
+                        </small>
                     </div>
                 </div>
 
+                <!-- Опыт, зарплата, формат -->
                 <div class="row">
                     <div class="form-group">
-                        <label>💼 Опыт работы</label>
+                        <div class="label-wrapper">
+                            <span class="label-icon">💼</span>
+                            <label>Опыт работы</label>
+                        </div>
                         <select id="experience">
                             <option value="">Любой</option>
                             <option value="noExperience">Нет опыта</option>
-                            <option value="between1And3">От 1 до 3 лет</option>
-                            <option value="between3And6">От 3 до 6 лет</option>
+                            <option value="between1And3">1-3 года</option>
+                            <option value="between3And6">3-6 лет</option>
                             <option value="moreThan6">Более 6 лет</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>💰 Зарплата от (₽)</label>
-                        <input type="number" id="salary" placeholder="Например: 100000" step="10000">
+                        <div class="label-wrapper">
+                            <span class="label-icon">💰</span>
+                            <label>Зарплата от (₽)</label>
+                        </div>
+                        <input 
+                            type="number" 
+                            id="salary" 
+                            placeholder="Например: 100000" 
+                            step="10000"
+                            min="0"
+                        >
                     </div>
 
                     <div class="form-group">
-                        <label>📁 Формат файла</label>
+                        <div class="label-wrapper">
+                            <span class="label-icon">📁</span>
+                            <label>Формат файла</label>
+                        </div>
                         <select id="format">
-                            <option value="excel">Excel (.xlsx)</option>
-                            <option value="csv">CSV (.csv)</option>
+                            <option value="excel">📊 Excel (.xlsx)</option>
+                            <option value="csv">📄 CSV (.csv)</option>
                         </select>
                     </div>
                 </div>
 
-                <button type="submit" id="startBtn">🚀 Начать парсинг</button>
+                <button type="submit" class="btn btn-primary" id="startBtn">
+                    🚀 Начать парсинг
+                </button>
             </form>
 
+            <!-- ===== NATIVE РЕКЛАМА (Яндекс.РСЯ в потоке) ===== -->
+            <!-- Формат: адаптивный, встраивается между формой и результатами -->
+            <div class="yandex-ad-native" id="yandexAdNative">
+                <div id="yandex_rtb_R-A-XXXXXXXX-X-native"></div>
+                <script>
+                    loadYandexAd("R-A-XXXXXXXX-X", "feed", "yandex_rtb_R-A-XXXXXXXX-X-native")
+                 </script>
+                <button class="ad-close-small" onclick="closeYandexAd('yandexAdNative')">✕</button>
+                
+                <!-- Метка "Реклама" для соответствия требованиям Яндекса -->
+                <div class="yandex-ad-label">Реклама</div>
+            </div>
+
+            <!-- Секция прогресса -->
             <div id="progressSection" class="progress-section">
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="progressBar">0%</div>
                 </div>
                 <div id="statusMessage" class="status waiting"></div>
                 <div id="downloadSection" class="download-section">
-                    <button id="downloadBtn" class="download-btn">📥 Скачать файл</button>
+                    <button id="downloadBtn" class="btn btn-download">
+                        📥 Скачать файл
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="margin-bottom: 15px;">💡 Советы по использованию</h3>
-            <ul style="margin-left: 20px; color: #666;">
+        <!-- ===== БАННЕР В КАРТОЧКЕ ===== -->
+        <div class="card banner-card" id="middleBanner">
+            <div class="banner-flex">
+                <div class="banner-icon">🎓</div>
+                <div class="banner-info">
+                    <div class="banner-title">Хотите освоить Python за 3 месяца?</div>
+                    <div class="banner-text">Онлайн-курс с трудоустройством от топовых специалистов</div>
+                </div>
+                <a href="#" class="banner-btn" target="_blank">Узнать →</a>
+            </div>
+            <button class="banner-close" onclick="closeYandexAd('middleBanner')">✕</button>
+        </div>
+
+        <!-- Карточка с советами -->
+        <div class="card tips-card">
+            <div class="tips-title">
+                <span>💡</span>
+                <span>Советы по использованию</span>
+            </div>
+            <ul class="tips-list">
                 <li>Используйте точные ключевые слова для лучших результатов</li>
-                <li>Максимальное количество вакансий за один раз - 2000</li>
-                <li>Парсинг может занять 1-3 минуты в зависимости от количества вакансий</li>
-                <li>Результат будет автоматически скачан после завершения</li>
+                <li>Максимальное количество вакансий за один раз — 2000</li>
+                <li>Парсинг может занять 1-3 минуты в зависимости от количества</li>
+                <li>Файл будет автоматически скачан после завершения</li>
+                <li>Excel файл содержит все ключевые навыки и описание</li>
+            </ul>
+        </div>
+
+        <!-- ===== НИЖНИЙ БАННЕР (Яндекс.РСЯ) ===== -->
+        <!-- Формат: адаптивный горизонтальный баннер -->
+        <div class="yandex-ad-bottom" id="yandexAdBottom">
+            <div id="yandex_rtb_R-A-XXXXXXXX-X-bottom"></div>
+            <script>
+                loadYandexAd("R-A-XXXXXXXX-X", "floorAd", "yandex_rtb_R-A-XXXXXXXX-X-bottom")
+            </script>
+            <button class="ad-close-small" onclick="closeYandexAd('yandexAdBottom')">✕</button>
+            <div class="yandex-ad-label">Реклама</div>
+        </div>
+
+        <!-- Карточка с возможностями -->
+        <div class="card tips-card">
+            <div class="tips-title">
+                <span>⚡</span>
+                <span>Возможности парсера</span>
+            </div>
+            <ul class="tips-list">
+                <li>Полная информация о вакансии: зарплата, опыт, график</li>
+                <li>Ключевые навыки и требования работодателя</li>
+                <li>Прямая ссылка на вакансию на hh.ru</li>
+                <li>Фильтрация по опыту и минимальной зарплате</li>
+                <li>Поддержка всех регионов России</li>
             </ul>
         </div>
     </div>
-
-    <script>
-        let currentJobId = null;
-        let statusCheckInterval = null;
-        
-        // Примеры для быстрой вставки
-        document.querySelectorAll('.example-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('searchText').value = btn.dataset.value;
-            });
-        });
-        
-        // Загрузка городов
-        let cityTimeout;
-        document.getElementById('city').addEventListener('input', (e) => {
-            clearTimeout(cityTimeout);
-            cityTimeout = setTimeout(() => loadCities(e.target.value), 300);
-        });
-        
-        async function loadCities(query) {
-            if (query.length < 2) return;
-            try {
-                const response = await fetch(`/api/regions?q=${encodeURIComponent(query)}`);
-                const cities = await response.json();
-                const datalist = document.getElementById('cities');
-                datalist.innerHTML = '';
-                cities.forEach(city => {
-                    const option = document.createElement('option');
-                    option.value = city.name;
-                    datalist.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Error loading cities:', error);
-            }
-        }
-        
-        // Обработка отправки формы
-        document.getElementById('parsingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const startBtn = document.getElementById('startBtn');
-            startBtn.disabled = true;
-            startBtn.textContent = '⏳ Запуск...';
-            
-            // Показываем прогресс
-            document.getElementById('progressSection').classList.add('active');
-            document.getElementById('downloadSection').classList.remove('active');
-            
-            const formData = {
-                search_text: document.getElementById('searchText').value,
-                city: document.getElementById('city').value,
-                max_vacancies: parseInt(document.getElementById('maxVacancies').value),
-                experience: document.getElementById('experience').value || null,
-                salary: document.getElementById('salary').value || null,
-                format: document.getElementById('format').value
-            };
-            
-            try {
-                const response = await fetch('/api/start_parsing', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Unknown error');
-                }
-                
-                currentJobId = data.job_id;
-                startStatusCheck();
-                
-            } catch (error) {
-                showStatus('error', 'Ошибка: ' + error.message);
-                startBtn.disabled = false;
-                startBtn.textContent = '🚀 Начать парсинг';
-            }
-        });
-        
-        function startStatusCheck() {
-            if (statusCheckInterval) clearInterval(statusCheckInterval);
-            
-            statusCheckInterval = setInterval(checkStatus, 2000);
-            checkStatus(); // Первая проверка сразу
-        }
-        
-        async function checkStatus() {
-            if (!currentJobId) return;
-            
-            try {
-                const response = await fetch(`/api/job_status/${currentJobId}`);
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Status check failed');
-                }
-                
-                // Обновляем прогресс
-                const progressBar = document.getElementById('progressBar');
-                const progress = data.progress || 0;
-                progressBar.style.width = `${progress}%`;
-                progressBar.textContent = `${Math.round(progress)}%`;
-                
-                // Обновляем статус
-                let statusText = '';
-                switch (data.status) {
-                    case 'waiting':
-                        statusText = '⏳ Ожидание начала...';
-                        break;
-                    case 'running':
-                        statusText = '🔍 Парсинг выполняется... Это может занять несколько минут';
-                        break;
-                    case 'completed':
-                        statusText = `✅ Парсинг завершен! Найдено ${data.vacancies_count || 0} вакансий.`;
-                        document.getElementById('downloadSection').classList.add('active');
-                        clearInterval(statusCheckInterval);
-                        document.getElementById('startBtn').disabled = false;
-                        document.getElementById('startBtn').textContent = '🚀 Новый поиск';
-                        break;
-                    case 'error':
-                        statusText = `❌ Ошибка: ${data.error_message || 'Неизвестная ошибка'}`;
-                        clearInterval(statusCheckInterval);
-                        document.getElementById('startBtn').disabled = false;
-                        document.getElementById('startBtn').textContent = '🚀 Начать парсинг';
-                        break;
-                }
-                
-                showStatus(data.status, statusText);
-                
-                if (data.status === 'completed' || data.status === 'error') {
-                    clearInterval(statusCheckInterval);
-                }
-                
-            } catch (error) {
-                console.error('Status check error:', error);
-            }
-        }
-        
-        function showStatus(status, message) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.className = `status ${status}`;
-            statusDiv.textContent = message;
-        }
-        
-        // Скачивание файла
-        document.getElementById('downloadBtn').addEventListener('click', async () => {
-            if (!currentJobId) return;
-            
-            try {
-                window.location.href = `/api/download/${currentJobId}`;
-            } catch (error) {
-                alert('Ошибка скачивания: ' + error.message);
-            }
-        });
-        
-        // Очистка при закрытии страницы
-        window.addEventListener('beforeunload', () => {
-            fetch('/api/cleanup', { method: 'POST' });
-        });
-    </script>
 </body>
 </html>

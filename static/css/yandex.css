@@ -1,0 +1,91 @@
+/* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ЯНДЕКС.РСЯ ===== */
+
+/* Верхний баннер */
+.yandex-ad-top {
+    background: transparent;
+    margin-bottom: 20px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    min-height: 100px;
+}
+
+/* Native реклама (в потоке) */
+.yandex-ad-native {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+/* Нижний баннер */
+.yandex-ad-bottom {
+    background: transparent;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    min-height: 100px;
+}
+
+/* Метка "Реклама" (требование Яндекса) */
+.yandex-ad-label {
+    position: absolute;
+    bottom: 4px;
+    right: 8px;
+    font-size: 10px;
+    color: var(--text-disabled);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+/* Кнопка закрытия для Яндекс блоков */
+.ad-close-small {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    z-index: 20;
+}
+
+.ad-close-small:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Контейнеры для рекламы должны иметь правильные размеры */
+#ad-container-top,
+#yandex_rtb_R-A-XXXXXXXX-X,
+#yandex_rtb_R-A-XXXXXXXX-X-native,
+#yandex_rtb_R-A-XXXXXXXX-X-bottom {
+    min-height: 90px;
+    width: 100%;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .yandex-ad-top {
+        min-height: 60px;
+    }
+
+    .yandex-ad-native {
+        padding: 12px;
+        margin: 16px 0;
+    }
+
+    .yandex-ad-bottom {
+        min-height: 60px;
+    }
+}
