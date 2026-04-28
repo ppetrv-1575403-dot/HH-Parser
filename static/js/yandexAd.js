@@ -1,3 +1,7 @@
+bannerAdId_top = ""
+bannerAdId_native = ""
+bannerAdId_bottom = ""
+
 function loadYandexAd(bannerAdId, // "R-A-XXXXXXXX-X" ★ ЗАМЕНИТЕ НА ВАШ ID ★
                       bannerType, // "floorAd"
                       uiControlId // "yandex_rtb_R-A-XXXXXXXX-X-bottom",
