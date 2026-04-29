@@ -10,9 +10,12 @@ from app.init import create_app
 
 from app.config import config
 
+PROD_ENV = 'production'
+DEBUG_ENV = 'development'
+
 if __name__ == '__main__':
     # Определяем окружение
-    env = 'production' if '--prod' in sys.argv else 'development'
+    env = PROD_ENV if '--prod' in sys.argv else DEBUG_ENV
     
     app = create_app(env)
     cfg = config.get(env, config['default'])
@@ -24,10 +27,13 @@ if __name__ == '__main__':
     print(f"🔧 Debug mode: {cfg.DEBUG}")
     print(f"📍 URL: http://{cfg.HOST}:{cfg.PORT}")
     print("=" * 50)
-    
-    app.run(
-        host=cfg.HOST,
-        port=cfg.PORT,
-        debug=cfg.DEBUG,
-        threaded=True
-    )
+
+    if env == DEBUG_ENV:
+        app.run(
+            host=cfg.HOST,
+            port=cfg.PORT,
+            debug=cfg.DEBUG,
+            threaded=True
+        )
+    else:
+        pass
