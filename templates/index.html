@@ -63,13 +63,13 @@
                         autocomplete="off"
                     >
                     <div class="examples">
-                        <button type="button" class="btn btn-outline example-btn" data-value="Python разработчик">🐍 Python</button>
-                        <button type="button" class="btn btn-outline example-btn" data-value="Java разработчик">☕ Java</button>
-                        <button type="button" class="btn btn-outline example-btn" data-value="JavaScript разработчик">📜 JavaScript</button>
-                        <button type="button" class="btn btn-outline example-btn" data-value="Data Scientist">📊 Data Scientist</button>
-                        <button type="button" class="btn btn-outline example-btn" data-value="Product Manager">📱 Product Manager</button>
-                        <button type="button" class="btn btn-outline example-btn" data-value="DevOps инженер">⚙️ DevOps</button>
-                        <button type="button" class="btn btn-outline example-btn" data-value="Аналитик данных">📈 Аналитик</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Python разработчик" onclick="setExample(this.dataset.value)">🐍 Python</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Java разработчик" onclick="setExample(this.dataset.value)">☕ Java</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="JavaScript разработчик" onclick="setExample(this.dataset.value)">📜 JavaScript</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Data Scientist" onclick="setExample(this.dataset.value)">📊 Data Scientist</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Product Manager" onclick="setExample(this.dataset.value)">📱 Product Manager</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="DevOps инженер" onclick="setExample(this.dataset.value)">⚙️ DevOps</button>
+                        <button type="button" class="btn btn-outline example-btn" data-value="Аналитик данных" onclick="setExample(this.dataset.value)">📈 Аналитик</button>
                     </div>
                 </div>
 
@@ -86,6 +86,7 @@
                             placeholder="Оставьте пустым для поиска по всей России" 
                             list="cities"
                             autocomplete="off"
+                            oninput="onCityInput(this.value)"
                         >
                         <datalist id="cities"></datalist>
                     </div>
@@ -151,7 +152,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="startBtn">
+                <button type="button" class="btn btn-primary" id="startBtn" onclick="onStartBtnClick()">
                     🚀 Начать парсинг
                 </button>
             </form>
@@ -176,7 +177,7 @@
                 </div>
                 <div id="statusMessage" class="status waiting"></div>
                 <div id="downloadSection" class="download-section">
-                    <button id="downloadBtn" class="btn btn-download">
+                    <button id="downloadBtn" class="btn btn-download" onclick="downloadBtnClick()">
                         📥 Скачать файл
                     </button>
                 </div>
