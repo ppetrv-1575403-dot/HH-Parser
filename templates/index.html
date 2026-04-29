@@ -27,10 +27,10 @@
             <div id="ad-container-top">
                 <div id="yandex_rtb_R-A-XXXXXXXX-X"></div>
                 <script>
-                     loadYandexAd(bannerAdId_top, "floorAd", "yandex_rtb_R-A-XXXXXXXX-X")
+                     loadYandexAd(bannerAdId_top, "floorAd", adTopUiItemId, adTopContainerId)
                 </script>
             </div>
-            <button class="ad-close" onclick="closeYandexAd('yandexAdTop')">✕</button>
+            <button class="ad-close" onclick="closeYandexAd(adTopContainerId)">✕</button>
         </div>
 
         <!-- Основная шапка -->
@@ -161,9 +161,9 @@
             <div class="yandex-ad-native" id="yandexAdNative">
                 <div id="yandex_rtb_R-A-XXXXXXXX-X-native"></div>
                 <script>
-                    loadYandexAd(bannerAdId_native, "feed", "yandex_rtb_R-A-XXXXXXXX-X-native")
+                    loadYandexAd(bannerAdId_native, "feed", adNativeUiItemId, adNativeContainerId)
                  </script>
-                <button class="ad-close-small" onclick="closeYandexAd('yandexAdNative')">✕</button>
+                <button class="ad-close-small" onclick="closeYandexAd(adNativeContainerId)">✕</button>
                 
                 <!-- Метка "Реклама" для соответствия требованиям Яндекса -->
                 <div class="yandex-ad-label">Реклама</div>
@@ -184,7 +184,7 @@
         </div>
 
         <!-- ===== БАННЕР В КАРТОЧКЕ ===== -->
-        <div class="card banner-card" id="middleBanner">
+<!--        <div class="card banner-card" id="middleBanner">
             <div class="banner-flex">
                 <div class="banner-icon">🎓</div>
                 <div class="banner-info">
@@ -194,7 +194,7 @@
                 <a href="#" class="banner-btn" target="_blank">Узнать →</a>
             </div>
             <button class="banner-close" onclick="closeYandexAd('middleBanner')">✕</button>
-        </div>
+        </div>-->
 
         <!-- Карточка с советами -->
         <div class="card tips-card">
@@ -216,9 +216,9 @@
         <div class="yandex-ad-bottom" id="yandexAdBottom">
             <div id="yandex_rtb_R-A-XXXXXXXX-X-bottom"></div>
             <script>
-                loadYandexAd(bannerAdId_bottom, "floorAd", "yandex_rtb_R-A-XXXXXXXX-X-bottom")
+                loadYandexAd(bannerAdId_bottom, "floorAd", adBottomUiItemId, adBottomContainerId)
             </script>
-            <button class="ad-close-small" onclick="closeYandexAd('yandexAdBottom')">✕</button>
+            <button class="ad-close-small" onclick="closeYandexAd(adBottomContainerId)">✕</button>
             <div class="yandex-ad-label">Реклама</div>
         </div>
 

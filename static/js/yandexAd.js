@@ -2,10 +2,24 @@ bannerAdId_top = ""
 bannerAdId_native = ""
 bannerAdId_bottom = ""
 
+adTopContainerId = "yandexAdTop"
+adNativeContainerId = "yandexAdNative"
+adBottomContainerId = "yandexAdBottom"
+
+adTopUiItemId = "yandex_rtb_R-A-XXXXXXXX-X"
+adNativeUiItemId = "yandex_rtb_R-A-XXXXXXXX-X-native"
+adBottomUiItemId = "yandex_rtb_R-A-XXXXXXXX-X-bottom"
+
 function loadYandexAd(bannerAdId, // "R-A-XXXXXXXX-X" ★ ЗАМЕНИТЕ НА ВАШ ID ★
                       bannerType, // "floorAd"
-                      uiControlId // "yandex_rtb_R-A-XXXXXXXX-X-bottom",
+                      uiControlId, // "yandex_rtb_R-A-XXXXXXXX-X-bottom",
+                      containerId
 ) {
+    if (!bannerAdId) {
+        closeYandexAd(bannerAdId, false)
+        hideAdContainer(containerId)
+        return
+    }
     window.yaContextCb.push(() => {
         Ya.Context.AdvManager.render({
             "blockId": bannerAdId,
@@ -15,20 +29,38 @@ function loadYandexAd(bannerAdId, // "R-A-XXXXXXXX-X" ★ ЗАМЕНИТЕ НА 
     })
 }
 
+function hideAdContainer(cId) {
+    const adElement = document.getElementById(cId);
+    if (adElement) {
+        adElement.remove()
+    }
+}
+
 // ===== НАСТРОЙКИ ЯНДЕКС.РСЯ =====
 // Закрытие рекламных блоков с сохранением состояния
-function closeYandexAd(adId) {
+function closeYandexAd(adId, fadeAnim) {
     const adElement = document.getElementById(adId);
     if (adElement) {
-        adElement.style.animation = 'fadeOut 0.3s ease-out';
-        setTimeout(() => {
+        if (!fadeAnim) {
             adElement.remove();
             // Сохраняем состояние закрытого блока
-            const closedAds = JSON.parse(localStorage.getItem('closedYandexAds') || '{}');
-            closedAds[adId] = true;
-            localStorage.setItem('closedYandexAds', JSON.stringify(closedAds));
-        }, 300);
+            rememberAdItemState(adId)
+        } else {
+            adElement.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                adElement.remove();
+                // Сохраняем состояние закрытого блока
+                rememberAdItemState(adId)
+            }, 300);
+        }
     }
+}
+
+// Сохраняем состояние закрытого блока
+function rememberAdItemState(adId) {
+     const closedAds = JSON.parse(localStorage.getItem('closedYandexAds') || '{}');
+     closedAds[adId] = true;
+     localStorage.setItem('closedYandexAds', JSON.stringify(closedAds));
 }
 
 // Загрузка состояния закрытых баннеров
